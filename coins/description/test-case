@@ -1,0 +1,21 @@
+
+In England the currency is made up of pound, £, and pence, p, 
+
+and there are eight coins in general circulation:
+1p, 2p, 5p, 10p, 20p, 50p, £1 (100p) and £2 (200p).
+
+Write a program that calculates the number of different ways £2 can be made using any number 
+of coins 
+
+ 
+As a pointer on what we would be looking for, if appropriate, in the app:
+ 
+1. Clear separation of concerns
+2. Well defined objects / interfaces
+3. Application of good OO design principles to solve the problem
+4. No code duplication
+5. Test Driven Development
+6. Well refactored code
+7. Well tested code
+ 
+Please also give an explanation on how you decided to go for the solution that you choose.
