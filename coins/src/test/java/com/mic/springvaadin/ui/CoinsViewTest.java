@@ -36,13 +36,7 @@ public class CoinsViewTest {
 	@Before
 	public void setup() {
 
-		List<Coin> coins = new ArrayList<>();
-		Coin coin1 = new Coin("1p", 1);
-		Coin coin2 = new Coin("2p", 2);
-		Coin coin20 = new Coin("20p", 20);
-		coins.add(coin20);
-		coins.add(coin2);
-		coins.add(coin1);
+		List<Coin> coins = getCoinsForTest();
 
 		CoinsService coinsService = createMock(CoinsService.class);
 		expect(coinsService.getCoins()).andReturn(coins);
@@ -63,6 +57,20 @@ public class CoinsViewTest {
 		resultLabel = (Label) verticalLayout.getComponent(2);
 		removeCoinButton = (Button) buttons.getComponent(0);
 
+	}
+
+	private List<Coin> getCoinsForTest() {
+		List<Coin> coins = new ArrayList<>();
+		Coin coin1 = new Coin("1p", 1);
+		coin1.setId(1);
+		Coin coin2 = new Coin("2p", 2);
+		coin1.setId(2);
+		Coin coin20 = new Coin("20p", 20);
+		coin1.setId(3);
+		coins.add(coin20);
+		coins.add(coin2);
+		coins.add(coin1);
+		return coins;
 	}
 
 	@Test
@@ -97,6 +105,31 @@ public class CoinsViewTest {
 
 		// verify
 		assertEquals("11", resultLabel.getValue());
+		verify(coinsService);
+
+	}
+	
+	@Test
+	public void removeCoinButtonShouldCallService() throws Exception {
+		// setup
+		List<Coin> coins = getCoinsForTest();
+		
+		List<Coin> coinsToRemove =new ArrayList<>();
+		coinsToRemove.add(coins.get(0));
+		CoinsService coinsService = createMock(CoinsService.class);
+		expect(coinsService.getCoin(1)).andReturn(coins.get(0));
+		
+		expect(coinsService.getCoins()).andReturn(coins);
+		coinsService.removeCoins(coinsToRemove);
+		replay(coinsService);
+		underTest.setCoinsService(coinsService);
+		
+		table.select(1);
+
+		// exercise
+		removeCoinButton.click();
+
+		// verify
 		verify(coinsService);
 
 	}
