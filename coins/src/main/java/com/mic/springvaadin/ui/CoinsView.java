@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import com.mic.springvaadin.dao.model.Coin;
+import com.mic.springvaadin.service.CoinsException;
 import com.mic.springvaadin.service.CoinsService;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -100,9 +101,18 @@ public class CoinsView extends VerticalLayout implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 
-				Integer result = coinsService.getNumberOfPermutations(Integer
-						.parseInt(amountField.getValue()));
-				resultLabel.setValue(result.toString());
+				Integer result;
+				try {
+					result = coinsService.getNumberOfPermutations(Integer
+							.parseInt(amountField.getValue()));
+					
+					resultLabel.setValue(result.toString());
+					
+	
+				} catch (CoinsException e) {
+					resultLabel.setValue(e.getMessage());
+				}
+				
 
 			}
 		});

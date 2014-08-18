@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.mic.springvaadin.dao.CoinsDao;
 import com.mic.springvaadin.dao.model.Coin;
+import com.mic.springvaadin.service.CoinsException;
 import com.mic.springvaadin.service.CoinsService;
+
 
 @Service
 public class CoinsServiceImpl implements CoinsService {
@@ -22,8 +24,11 @@ public class CoinsServiceImpl implements CoinsService {
 	private List<Coin> coins;
 
 	@Override
-	public int getNumberOfPermutations(int amount) {
+	public int getNumberOfPermutations(int amount) throws CoinsException{
 
+		if(999999<amount)
+			throw new CoinsException("amount too large");
+		
 		coins = coinsDao.getCoins();
 
 		return iterateOverCoinsAndReturnTargetValue(amount);

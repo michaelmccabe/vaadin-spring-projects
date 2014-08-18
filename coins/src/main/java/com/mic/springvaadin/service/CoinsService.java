@@ -14,6 +14,6 @@ public interface CoinsService {
 
 	List<Coin> getCoins();
 
-	int getNumberOfPermutations(int pence);
+	int getNumberOfPermutations(int pence) throws CoinsException;
 
 }
