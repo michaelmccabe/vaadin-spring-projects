@@ -4,7 +4,7 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.mic.springvaadin.dao.model.Coin;
+import com.mic.springvaadin.service.CoinsException;
 import com.mic.springvaadin.service.CoinsService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -131,6 +132,26 @@ public class CoinsViewTest {
 
 		// verify
 		verify(coinsService);
+
+	}
+	
+	@Test
+	public void resultLabelShouldDisplayCoinsExceptionMessage() throws Exception {
+		
+		// setup
+		CoinsService coinsService = createMock(CoinsService.class);
+
+		expect(coinsService.getNumberOfPermutations(200)).andThrow(new CoinsException("message"));
+		replay(coinsService);
+		underTest.setCoinsService(coinsService);
+
+		// exercise
+		calculateButton.click();
+
+		// verify
+		assertEquals("message", resultLabel.getValue());
+		verify(coinsService);
+		
 
 	}
 
